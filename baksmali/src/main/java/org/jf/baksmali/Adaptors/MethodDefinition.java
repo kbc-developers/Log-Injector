@@ -212,13 +212,23 @@ public class MethodDefinition {
         writer.write('\n');
 
         writer.indent(4);
+        // Log.d requires two registers.
+        int registerCount = methodImpl.getRegisterCount();
         if (classDef.options.localsDirective) {
             writer.write(".locals ");
-            writer.printSignedIntAsDec(methodImpl.getRegisterCount() - parameterRegisterCount);
+            registerCount -= parameterRegisterCount;
+            if (registerCount < 2) {
+                registerCount = 2;
+            }
+            //writer.printSignedIntAsDec(methodImpl.getRegisterCount() - parameterRegisterCount);
         } else {
             writer.write(".registers ");
-            writer.printSignedIntAsDec(methodImpl.getRegisterCount());
+            if (registerCount + 2 <= 16) { // Max number of registers is 16.
+                registerCount += 2;
+            }
+            //writer.printSignedIntAsDec(methodImpl.getRegisterCount());
         }
+        writer.printSignedIntAsDec(registerCount);
         writer.write('\n');
         writeParameters(writer, method, methodParameters, classDef.options);
 
@@ -235,10 +245,21 @@ public class MethodDefinition {
 
         writer.write('\n');
 
+        int itemCount = 0;
         List<MethodItem> methodItems = getMethodItems();
         for (MethodItem methodItem: methodItems) {
             if (methodItem.writeTo(writer)) {
                 writer.write('\n');
+                itemCount++;
+            }
+            if (itemCount > 3)
+                continue;
+               //if (itemCount == 2 && !encodedMethod.method.getMethodName().getStringValue().equals("<init>")) {
+            if (itemCount == 1) {
+                //writer.write("DEBUG : " + encodedMethod.method.getMethodName().getStringValue() + "\n\n");
+                writer.write("const-string v0, \"smali\"\n\n");
+                writer.write("const-string v1, \"" + encodedMethod.method.getMethodString() + "\"\n\n");
+                writer.write("invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I\n\n");
             }
         }
         writer.deindent(4);
