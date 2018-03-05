@@ -258,7 +258,7 @@ public class MethodDefinition {
             if (itemCount == 1) {
                 //writer.write("DEBUG : " + encodedMethod.method.getMethodName().getStringValue() + "\n\n");
                 writer.write("const-string v0, \"smali\"\n\n");
-                writer.write("const-string v1, \"" + encodedMethod.method.getMethodString() + "\"\n\n");
+                writer.write("const-string v1, \"" + method.getName() + "\"\n\n");
                 writer.write("invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I\n\n");
             }
         }
