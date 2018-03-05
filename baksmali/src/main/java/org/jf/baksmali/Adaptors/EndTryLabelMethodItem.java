@@ -28,11 +28,15 @@
 
 package org.jf.baksmali.Adaptors;
 
+import org.jf.baksmali.BaksmaliOptions;
+
+import javax.annotation.Nonnull;
+
 public class EndTryLabelMethodItem extends LabelMethodItem {
     private int endTryAddress;
 
-    public EndTryLabelMethodItem(int codeAddress, int endTryAddress) {
-        super(codeAddress, "try_end_");
+    public EndTryLabelMethodItem(@Nonnull BaksmaliOptions options, int codeAddress, int endTryAddress) {
+        super(options, codeAddress, "try_end_");
         this.endTryAddress = endTryAddress;
     }
 

@@ -23,6 +23,8 @@ LI/I/I;
 [D
 [Ljava/lang/String;
 [LI/I/I;
+[[LI/I/I;
+[[I
 
 IIIII
 ZBSCIJFD
@@ -34,6 +36,8 @@ Ljava/lang/String;Ljava/lang/String;
 
 <init>
 <clinit>
+<blah>
+<init->
 
 Ljava/lang/String
 L;
@@ -46,3 +50,7 @@ L[Ljava/lang/String;
 [;
 
 <linit>
+
+III
+
+[I->clone()Ljava/lang/Object;
